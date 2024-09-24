@@ -71,11 +71,19 @@
         </encoder>
     </appender>
 
+    <!-- 控制台输出 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${normal-pattern}</pattern>
+        </encoder>
+    </appender>
+
     <logger name="Sekiro" level="INFO" additivity="false">
         <appender-ref ref="asyncSekiro"/>
     </logger>
 
     <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
         <appender-ref ref="ERROR"/>
     </root>

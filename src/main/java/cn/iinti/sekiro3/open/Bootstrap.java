@@ -7,12 +7,14 @@ import cn.iinti.sekiro3.business.netty.channel.ChannelInitializer;
 import cn.iinti.sekiro3.business.netty.channel.nio.NioEventLoopGroup;
 import cn.iinti.sekiro3.business.netty.channel.socket.SocketChannel;
 import cn.iinti.sekiro3.business.netty.channel.socket.nio.NioServerSocketChannel;
+import cn.iinti.sekiro3.business.netty.handler.codec.http.HttpMethod;
 import cn.iinti.sekiro3.business.netty.util.concurrent.DefaultThreadFactory;
 import cn.iinti.sekiro3.open.core.Session;
 import cn.iinti.sekiro3.open.detector.HttpMatcher;
 import cn.iinti.sekiro3.open.detector.ProtocolDetector;
 import cn.iinti.sekiro3.open.detector.ProtocolMatcher;
 import cn.iinti.sekiro3.open.detector.SekiroMatcher;
+
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
@@ -31,7 +33,7 @@ public class Bootstrap {
     @Getter
     public static Integer listenPort;
 
-    private static final String IntMessage = "welcome use sekiro framework, for more support please visit our website: https://iinti.cn/";
+    private static final String IntMessage = "welcome！";
     public static boolean isLocalDebug;
 
     public static void main(String[] args) throws Exception {
@@ -68,13 +70,14 @@ public class Bootstrap {
                     ctx.channel().writeAndFlush(Unpooled.wrappedBuffer(UN_SUPPORT_PROTOCOL_MSG)).addListener(ChannelFutureListener.CLOSE);
                 }, matchers.toArray(new ProtocolMatcher[]{}));
                 socketChannel.pipeline().addLast(protocolDetector);
+
             }
         });
 
         listenPort = NumberUtils.toInt(properties.getProperty("sekiro.port", "5612"));
         log.info("start sekiro netty server,port:{}", listenPort);
         log.info(IntMessage);
-        System.out.println(IntMessage);
+//        System.out.println(IntMessage);
         serverBootstrap.bind(listenPort).addListener(future -> {
             if (future.isSuccess()) {
                 log.info("sekiro netty server start success");

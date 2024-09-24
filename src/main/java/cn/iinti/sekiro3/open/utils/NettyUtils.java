@@ -43,6 +43,7 @@ public class NettyUtils {
             response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, status, content);
             response.headers().set(HttpHeaders.Names.CONTENT_LENGTH, bytes.length);
             response.headers().set(HttpHeaders.Names.CONTENT_TYPE, "text/html; charset=utf-8");
+
         } else {
             response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, status);
         }
@@ -64,6 +65,7 @@ public class NettyUtils {
 
     public static void sendHttpResponse(ChannelHandlerContext ctx, FullHttpRequest req, DefaultFullHttpResponse res) {
         res.headers().set(CONTENT_LENGTH, res.content().readableBytes());
+
         if (res.getStatus().code() != 200) {
             ByteBuf buf = Unpooled.copiedBuffer(res.getStatus().toString(), StandardCharsets.UTF_8);
             res.content().writeBytes(buf);
@@ -81,6 +83,9 @@ public class NettyUtils {
                 Unpooled.wrappedBuffer(jsonObject.getBytes(StandardCharsets.UTF_8)));
         httpResponse.headers().set("Content-Type", "application/json;charset=utf8;");
         httpResponse.headers().set(CONTENT_LENGTH, httpResponse.content().readableBytes());
+        httpResponse.headers().set(HttpHeaders.Names.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+        httpResponse.headers().set(HttpHeaders.Names.ACCESS_CONTROL_ALLOW_METHODS, "GET,POST");
+
         return httpResponse;
     }
 
@@ -132,6 +137,8 @@ public class NettyUtils {
                     Unpooled.wrappedBuffer(data));
             httpResponse.headers().set("Content-Type", contentType);
             httpResponse.headers().set(CONTENT_LENGTH, httpResponse.content().readableBytes());
+            httpResponse.headers().set(HttpHeaders.Names.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+            httpResponse.headers().set(HttpHeaders.Names.ACCESS_CONTROL_ALLOW_METHODS, "GET,POST");
 
             return httpResponse;
         }
@@ -143,6 +150,8 @@ public class NettyUtils {
             //resp.setChunked(true);
             resp.headers().set("Content-Type", contentType);
             resp.headers().set(HttpHeaders.Names.TRANSFER_ENCODING, HttpHeaders.Values.CHUNKED);
+            resp.headers().set(HttpHeaders.Names.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+            resp.headers().set(HttpHeaders.Names.ACCESS_CONTROL_ALLOW_METHODS, "GET,POST");
             return resp;
         }
 

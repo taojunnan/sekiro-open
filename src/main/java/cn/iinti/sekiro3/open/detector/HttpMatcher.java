@@ -2,9 +2,11 @@ package cn.iinti.sekiro3.open.detector;
 
 import cn.iinti.sekiro3.business.netty.buffer.ByteBuf;
 import cn.iinti.sekiro3.business.netty.channel.ChannelPipeline;
+import cn.iinti.sekiro3.business.netty.handler.codec.http.HttpMethod;
 import cn.iinti.sekiro3.business.netty.handler.codec.http.HttpServerCodec;
 import cn.iinti.sekiro3.open.handlers.HttpFirstPacketHandler;
-
+import cn.iinti.sekiro3.business.netty.handler.codec.http.cors.CorsConfig;
+import cn.iinti.sekiro3.business.netty.handler.codec.http.cors.CorsHandler;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
